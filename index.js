@@ -1,14 +1,34 @@
 import express from "express";
+import dotenv from "dotenv";
+import path from "path";
 import connectMD from "./connection.js";
+import { fileURLToPath } from "url";
+import userRoutes from "./routes/users.js"
 
+//loading env variables
+dotenv.config();
 
-const PORT = 1000;
+//fix dir name in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const PORT = process.env.PORT;
+const mongoUrl = process.env.MONGO_URI;
+
 const app = express();
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use("/user", userRoutes);
 
-connectMD("mongodb://127.0.0.1:27017/BlogApp")
+app.get("/", (req, res) => {
+    res.render("home");
+});
+
+connectMD(mongoUrl)
     .then(() => {
         console.log("Connected to the database.");
     })
@@ -18,5 +38,5 @@ connectMD("mongodb://127.0.0.1:27017/BlogApp")
 
 
 app.listen(PORT, () => {
-    console.log("Server has been started.");
+    console.log(`Server has been started. at ${PORT}`);
 })
