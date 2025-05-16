@@ -4,6 +4,8 @@ import path from "path";
 import connectMD from "./connection.js";
 import { fileURLToPath } from "url";
 import userRoutes from "./routes/users.js"
+import cookieParser from "cookie-parser";
+import checkForAuthenticationCookie from "./middleware/authentication.js";
 
 //loading env variables
 dotenv.config();
@@ -22,10 +24,14 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(checkForAuthenticationCookie("token"));
 app.use("/user", userRoutes);
 
 app.get("/", (req, res) => {
-    res.render("home");
+    res.render("home", {
+        user: req.user
+    });
 });
 
 connectMD(mongoUrl)
