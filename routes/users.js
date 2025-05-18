@@ -11,6 +11,12 @@ router.get("/signup", (req, res) => {
     res.render("signup");
 });
 
+router.get('/signout', (req, res) => {
+    res.clearCookie("token");
+    res.redirect("/user/signin"); // or render a page/message
+});
+
+
 
 router.post("/signup", async (req, res) => {
     try {

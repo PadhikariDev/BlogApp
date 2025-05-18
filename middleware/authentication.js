@@ -1,17 +1,19 @@
-import { validateToken } from "../services/authentication";
+import { validateToken } from "../services/authentication.js";
 
 function checkForAuthenticationCookie(cookieName) {
     return (req, res, next) => {
         const cookieTokenValue = req.cookies[cookieName];
         if (!cookieTokenValue) {
-            next();
+            return next();
         };
         try {
             const userPayload = validateToken(cookieTokenValue);
             req.user = userPayload;
         }
-        catch (error) { }
-        next();
+        catch (error) {
+            console.error("Invalid token:", error.message);
+        }
+        return next();
     }
 }
 

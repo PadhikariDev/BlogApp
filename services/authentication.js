@@ -8,6 +8,7 @@ const superKey = process.env.secreteKey;
 function createTokenForUser(user) {
     const payload = {
         _id: user._id,
+        fullname: user.fullname,
         email: user.email,
         profileImageUrl: user.profileImageUrl,
         role: user.role
