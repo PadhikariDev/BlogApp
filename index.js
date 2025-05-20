@@ -37,7 +37,7 @@ app.get("/", async (req, res) => {
 
     if (req.user) {
 
-        blogs = await blog.find({ author: req.user._id });
+        blogs = await blog.find();
     } else {
 
         blogs = await blog.aggregate([{ $sample: { size: 6 } }]);

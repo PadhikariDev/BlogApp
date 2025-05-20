@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("partials/head") %>
+        <title>Home</title>
+</head>
+
+<body>
+    <%- include("partials/nav") %>
+        <div class="max-w-3xl mx-auto bg-gray-200 mt-6 p-4 shadow rounded text-center">
+            <h1 class="text-3xl font-bold  mb-4 text-gray-700">
+                Title : <%= blog.title %>
+            </h1>
+            <img src="<%= blog.coverImage || '/default-image.png' %>" class="w-full rounded mb-6 mx-auto" />
+            <h3 class="text-xl ml-0 font-bold  mb-4 text-gray-700 ">
+                Description : <%=blog.description%>
+            </h3>
+            <P class="text-xl mt-4 mb-4 text-gray-700">
+                Content : <%=blog.body %>
+            </P>
+            <div class="comment max-w-3xl mx-auto mt-6 p-4 shadow rounded">
+                <form action="">
+                    <input type="text" class="w-100 mt-2  rounded mb-4">
+                </form>
+                <button class="bg-blue-900 rounded w-50 text-white">Add comment</button>
+            </div>
+        </div>
+
+
+        <%- include("partials/scripts") %>
+</body>
+
+</html>

@@ -32,6 +32,23 @@ router.post("/add", upload.single("coverImage"), async (req, res) => {
         res.status(500).send('internal server error.');
     }
 
-})
+});
+
+router.get("/:id", async (req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id);
+        if (!blog) {
+            return res.status(404).send("Blog not found.");
+        }
+        res.render("readMore", {
+            blog,
+            user: req.user,
+
+        })
+    } catch (error) {
+        console.error("Blogs loading error.", error);
+        res.status(500).send("Internal server error.");
+    }
+});
 
 export default router;
