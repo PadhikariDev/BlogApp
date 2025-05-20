@@ -1,7 +1,7 @@
 import express from "express";
 import Blog from "../models/blog.js";
 import upload from "../middleware/fileUpload.js";
-
+import comments from "../models/comments.js";
 const router = express.Router();
 
 // Show add blog form
@@ -36,19 +36,30 @@ router.post("/add", upload.single("coverImage"), async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        const blog = await Blog.findById(req.params.id);
+        const blog = await Blog.findById(req.params.id)
+            .populate("author")
+            .lean();
+
         if (!blog) {
             return res.status(404).send("Blog not found.");
         }
-        res.render("readMore", {
-            blog,
-            user: req.user,
 
-        })
+        // Fetch comments for the blog and populate users
+        const blogComments = await comments.find({ blog: req.params.id })
+            .populate("commentUser")
+            .lean();
+
+        blog.comments = blogComments;  // Attach comments to blog
+
+        res.render("readMore", {
+            user: req.user,
+            blog,
+        });
     } catch (error) {
         console.error("Blogs loading error.", error);
         res.status(500).send("Internal server error.");
     }
 });
+
 
 export default router;

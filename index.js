@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import checkForAuthenticationCookie from "./middleware/authentication.js";
 import blogRoutes from "./routes/blogRoutes.js";
 import blog from "./models/blog.js";
+import commentRouter from "./routes/comments.js"
 
 //loading env variables
 dotenv.config();
@@ -31,6 +32,7 @@ app.use(cookieParser());
 app.use(checkForAuthenticationCookie("token"));
 app.use("/user", userRoutes);
 app.use("/blogs", blogRoutes);
+app.use("/comment", commentRouter);
 
 app.get("/", async (req, res) => {
     let blogs;
