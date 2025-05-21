@@ -7,55 +7,94 @@
 </head>
 
 <body>
-    <section class="bg-gray-500 dark:bg-gray-700">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                EchoPress
-            </a>
-            <div
-                class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1
-                        class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Create an account
-                    </h1>
-                    <form class="space-y-4 md:space-y-6" action="/user/signup" method="post">
-                        <div>
-                            <label for="fullname"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full
-                                name</label>
-                            <input type="text" name="fullname" id="fullname"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Jhon Doe" required="">
-                        </div>
-                        <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                                email</label>
-                            <input type="email" name="email" id="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="name@company.com" required="">
-                        </div>
-                        <div>
-                            <label for="password"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                            <input type="password" name="password" id="password" placeholder="••••••••"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
-                        </div>
 
-                        <button type="submit"
-                            class="w-full text-white bg-blue-600 hover:bg-blue-500 hover:cursor-pointer focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create
-                            an account</button>
-                        <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Already have an account? <a href="#"
-                                class="font-medium text-primary-600 hover:underline hover:text-blue-500 dark:text-primary-500">Login
-                                here</a>
-                        </p>
-                    </form>
-                </div>
+    <section class="min-h-screen bg-[#E6F0FA] flex items-center justify-center px-6 py-8">
+
+        <div class="flex flex-col md:flex-row shadow-lg rounded-lg max-w-4xl w-full">
+
+            <!-- Left: Brand Image -->
+            <div
+                class="md:w-1/2 hidden md:flex items-center justify-center bg-[#4A90E2] rounded-tl-lg rounded-bl-lg overflow-hidden">
+                <img src="/images/Echo.png" alt="Brand Image" class="object-cover w-full h-full" />
             </div>
+
+            <!-- Right: Signup Form -->
+            <div class="md:w-1/2 p-8 md:p-12 bg-white rounded-tr-lg rounded-br-lg relative">
+
+                <a href="/" class="flex items-center mb-6 text-2xl font-semibold text-[#1F3A93]">
+                    EchoPress
+                </a>
+                <% if (locals.error) { %>
+                    <div id="alert-border-2"
+                        class="flex items-center p-4 text-[#C53030] border-t-4 border-[#9B2C2C] bg-[#FFF5F5] rounded-md absolute top-4 left-1/2 transform -translate-x-1/2 w-full max-w-md z-10"
+                        role="alert" style="opacity:1; height:auto;">
+                        <svg class="w-5 h-5 flex-shrink-0 mr-3 text-[#C53030]" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z" />
+                        </svg>
+                        <p class="text-sm font-medium text-[#9B2C2C]">
+                            <%= locals.error %>
+                        </p>
+                        <button type="button" aria-label="Dismiss"
+                            class="ml-auto text-[#C53030] hover:text-[#9B2C2C] focus:outline-none focus:ring-2 focus:ring-[#9B2C2C] rounded"
+                            onclick="document.getElementById('alert-border-2').style.display='none'">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- placeholder to avoid layout jump -->
+                    <div style="height:64px;"></div>
+                    <% } %>
+
+                        <h1 class="text-2xl font-bold leading-tight tracking-tight text-[#1F3A93] mb-6">
+                            Create an account
+                        </h1>
+
+                        <form class="space-y-6" action="/user/signup" method="post">
+                            <div>
+                                <label for="fullname" class="block mb-2 text-sm font-medium text-[#1F3A93]">Full
+                                    name</label>
+                                <input type="text" name="fullname" id="fullname" placeholder="John Doe" required class="w-full p-2.5 rounded-lg border border-[#4A90E2] bg-[#E6F0FA] text-[#1F3A93]
+                            focus:ring-[#4A90E2] focus:border-[#1F3A93]" />
+                            </div>
+
+                            <div>
+                                <label for="email" class="block mb-2 text-sm font-medium text-[#1F3A93]">Your
+                                    email</label>
+                                <input type="email" name="email" id="email" placeholder="name@company.com" required
+                                    class="w-full p-2.5 rounded-lg border border-[#4A90E2] bg-[#E6F0FA] text-[#1F3A93]
+                            focus:ring-[#4A90E2] focus:border-[#1F3A93]" />
+                            </div>
+
+                            <div>
+                                <label for="password"
+                                    class="block mb-2 text-sm font-medium text-[#1F3A93]">Password</label>
+                                <input type="password" name="password" id="password" placeholder="••••••••" required
+                                    class="w-full p-2.5 rounded-lg border border-[#4A90E2] bg-[#E6F0FA] text-[#1F3A93]
+                            focus:ring-[#4A90E2] focus:border-[#1F3A93]" />
+                            </div>
+
+                            <button type="submit"
+                                class="w-full bg-[#4A90E2] hover:bg-[#1F3A93] text-white font-medium rounded-lg px-5 py-2.5 focus:ring-4 focus:outline-none focus:ring-[#1F3A93]">
+                                Create an account
+                            </button>
+
+                            <p class="text-sm font-light text-[#1F3A93]">
+                                Already have an account? <a href="/user/signin"
+                                    class="font-medium text-[#4A90E2] hover:underline">Login
+                                    here</a>
+                            </p>
+                        </form>
+
+            </div>
+
         </div>
     </section>
+
     <%- include("partials/scripts") %>
 </body>
 

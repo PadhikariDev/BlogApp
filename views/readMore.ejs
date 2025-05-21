@@ -6,68 +6,116 @@
         <title>Home</title>
 </head>
 
-<body>
+<body class="bg-[#E6F0FA] text-[#1F3A93]">
     <%- include("partials/nav") %>
-        <div class="max-w-5xl mx-auto bg-gray-200 mt-3 p-4 shadow rounded text-left">
-            <h1 class="text-3xl font-bold mt-7 mb-8 text-gray-700">
-                Title : <%= blog.title %>
+
+
+        <!-- Blog Post Container -->
+        <div class="max-w-5xl mx-auto bg-white mt-6 p-8 shadow-lg rounded-lg border border-[#4A90E2]">
+            <h1 class="text-3xl font-bold mb-6">📝 Title: <%= blog.title %>
             </h1>
-            <img src="<%= blog.coverImage || '/default-image.png' %>" class="w-full rounded mb-6 mx-auto" />
-            <h3 class="text-xl ml-0 font-bold mb-4 text-gray-700">
-                Description : <%= blog.description %>
+
+            <!-- Blog Cover Image -->
+            <img src="<%= blog.coverImage || '/default-image.png' %>" class="w-full rounded-xl mb-6" alt="Blog Image" />
+
+            <!-- Description -->
+            <h3 class="text-xl font-semibold mb-4">📌 Description: <%= blog.description %>
             </h3>
-            <p class="text-xl mt-4 mb-4 text-gray-700">
-                Content : <%= blog.body %>
+
+            <!-- Main Content -->
+            <p class="text-lg leading-relaxed mb-6 whitespace-pre-line">📰 Content: <%= blog.body %>
             </p>
-            <h5 class="text-xl ml-0 font-bold mb-4 text-gray-700">Author: <%=blog.author.fullname %>
-            </h5>
-            <p class="text-xl mt-4 mb-4 text-gray-700">Uploaded at : <%=blog.author.createdAt %>
-            </p>
-            <h6 class="text-xl mt-4 mb-4 font-bold text-gray-700">Comments( <%= blog.comments ? blog.comments.length : 0
-                    %>)</h6>
-            <div>
+
+            <!-- Author & Date -->
+            <div class="mb-6 text-sm text-gray-600">
+                ✍️ Author: <strong>
+                    <%= blog.author.fullname %>
+                </strong><br />
+                🕒 Uploaded: <%= new Date(blog.author.createdAt).toLocaleString() %>
+            </div>
+
+            <!-- Comments Header -->
+            <h4 class="text-2xl font-semibold mb-4 border-b pb-2">💬 Comments (<%= blog.comments ? blog.comments.length
+                    : 0 %>)</h4>
+
+            <!-- Comments Section -->
+            <div class="space-y-4 mb-6">
                 <% if (blog.comments && blog.comments.length> 0) { %>
                     <% blog.comments.forEach(comment=> { %>
-                        <div class="comment-item mb-3 p-2 border rounded">
-                            <img src="<%= comment.commentUser.profileImageUrl %>" alt="User Image"
-                                class="w-8 h-8 rounded-full inline-block mr-2" />
-                            <strong>
-                                <%= comment.commentUser.fullname %>
-                            </strong>
-                            <p>
+                        <div class="bg-[#F0F8FF] p-4 rounded-lg border border-[#4A90E2] shadow-sm">
+                            <div class="flex items-center mb-2">
+                                <img src="<%= comment.commentUser.profileImageUrl %>" alt="User"
+                                    class="w-8 h-8 rounded-full mr-3" />
+                                <strong class="text-[#1F3A93]">
+                                    <%= comment.commentUser.fullname %>
+                                </strong>
+                                <span class="ml-auto text-xs text-gray-500">
+                                    <%= new Date(comment.createdAt).toLocaleString() %>
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-800">
                                 <%= comment.commentBody %>
                             </p>
-                            <small>
-                                <%= new Date(comment.createdAt).toLocaleString() %>
-                            </small>
                         </div>
                         <% }) %>
                             <% } else { %>
-                                <p class="mt-2 mb-2">No comments yet. Be the first to comment!</p>
+                                <p class="italic text-gray-500">No comments yet. Be the first to comment!</p>
                                 <% } %>
             </div>
-            <div class="flex items-start justify-start gap-4">
+
+            <!-- Add Comment Form -->
+            <div>
                 <% if (user) { %>
-                    <form class="flex justify-start gap-3 w-full max-w-xxl" method="post" action="/comment/addComments">
+                    <form method="post" action="/comment/addComments"
+                        class="flex flex-col sm:flex-row items-start gap-4">
                         <img src="<%= user.profileImageUrl %>" alt="User Profile" class="w-10 h-10 rounded-full" />
                         <input type="hidden" name="blogId" value="<%= blog._id %>">
                         <input type="text" name="commentBody" id="commentBody" placeholder="Leave a comment" required
-                            class="flex-grow bg-white border border-gray-800 text-black placeholder-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 p-2.5" />
+                            class="flex-grow bg-white border border-[#4A90E2] text-black placeholder-gray-500 text-sm rounded-lg focus:ring-[#4A90E2] focus:border-[#1F3A93] p-2.5 w-full sm:w-auto" />
                         <button type="submit"
-                            class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900">
+                            class="bg-[#4A90E2] hover:bg-[#1F3A93] text-white font-medium text-sm px-4 py-2 rounded-lg focus:ring-4 focus:ring-[#1F3A93]">
                             Add Comment
                         </button>
                     </form>
                     <% } else { %>
-                        <p class="text-gray-600 italic">Please <a href="/login" class="text-blue-500 underline">log
+                        <p class="text-gray-600 italic mt-4">Please <a href="/user/signin"
+                                class="text-blue-500 underline">log
                                 in</a> to leave a comment.</p>
                         <% } %>
             </div>
-
-
         </div>
+        <div class="w-1/2 h-[2px] bg-black my-10 mx-auto"></div>
 
-        <%- include("partials/scripts") %>
+        <!-- What to Read Next Section -->
+        <section class="max-w-5xl mx-auto mt-16 mb-10 px-4">
+            <h2 class="text-2xl font-bold text-[#1F3A93] mb-6">📚 What to Read Next</h2>
+
+            <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                <% randomBlogs.forEach(blog=> { %>
+                    <a href="/blogs/<%= blog._id %>"
+                        class="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-[#4A90E2]">
+                        <img src="<%= blog.coverImage || '/default-image.png' %>" alt="Blog Image"
+                            class="w-full h-48 object-cover rounded-t-lg" />
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-[#1F3A93] mb-2 line-clamp-2">
+                                <%= blog.title %>
+                            </h3>
+                            <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                                <%= blog.description %>
+                            </p>
+                            <p class="text-xs text-gray-500">By <%= blog.author.fullname %>
+                            </p>
+                        </div>
+                    </a>
+                    <% }) %>
+            </div>
+        </section>
+        <div class="w-1/2 h-[2px] bg-black my-10 mx-auto"></div>
+
+
+        <!-- Footer -->
+        <%- include("partials/footer") %>
+            <%- include("partials/scripts") %>
 </body>
 
 </html>

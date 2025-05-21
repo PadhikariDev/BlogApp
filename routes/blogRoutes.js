@@ -44,22 +44,34 @@ router.get("/:id", async (req, res) => {
             return res.status(404).send("Blog not found.");
         }
 
-        // Fetch comments for the blog and populate users
+        // Fetch comments and populate user info
         const blogComments = await comments.find({ blog: req.params.id })
             .populate("commentUser")
             .lean();
 
-        blog.comments = blogComments;  // Attach comments to blog
+        blog.comments = blogComments;
+
+        // Fetch 6 random blogs excluding the current one
+        const randomBlogs = await Blog.aggregate([
+            { $match: { _id: { $ne: blog._id } } },
+            { $sample: { size: 6 } }
+        ]);
+
+        // Populate author field in randomBlogs
+        const populatedRandomBlogs = await Blog.populate(randomBlogs, { path: "author" });
 
         res.render("readMore", {
             user: req.user,
             blog,
+            randomBlogs: populatedRandomBlogs, // 👈 Pass to view
         });
+
     } catch (error) {
         console.error("Blogs loading error.", error);
         res.status(500).send("Internal server error.");
     }
 });
+
 
 
 export default router;

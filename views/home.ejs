@@ -6,43 +6,66 @@
         <title>Home</title>
 </head>
 
-<body>
+<body class="bg-[#E6F0FA] text-[#1E293B]">
     <%- include("partials/nav") %>
+        <section class="relative w-full px-4">
+            <div class="w-full flex flex-col items-center justify-center mt-5">
+                <!-- Card-like Image -->
+                <div class="w-full max-w-[720px] rounded-xl overflow-hidden shadow-lg border border-gray-200">
+                    <img src="/images/echoPressHome.png" alt="EchoPress Home" class="w-full h-auto object-cover" />
+                </div>
+                <!-- Heading -->
+                <h1 class="font-newsreader  text-center font-semibold mt-8 px-4 
+                text-xl sm:text-2xl md:text-3xl lg:text-4xl 
+                leading-relaxed sm:leading-snug max-w-3xl mx-auto">
+                    Echo Press is a modern blog platform where every idea echoes, empowering creators to share
+                    meaningfully.
+                </h1>
+                <!-- Divider -->
+                <div class="w-full max-w-[640px] h-[2px] bg-black mx-auto my-6"></div>
+            </div>
+        </section>
 
-        <div class="container mx-auto px-4">
+        <section class="container mx-auto px-4 py-8">
+            <h2 class="text-[32px] md:text-[38px] font-bold text-center mb-12 font-newsreader">
+                All articles
+            </h2>
+
             <% if (blogs && blogs.length> 0) { %>
-
-                <!-- Grid Wrapper -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
                     <% blogs.forEach(blog=> { %>
                         <div
-                            class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-
-                            <img class="rounded-t-lg w-full h-48 object-cover"
-                                src="<%= blog.coverImage || '/default-image.jpg' %>" alt="<%= blog.title %>" />
-
-                            <div class="p-5">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                    <%= blog.title %>
-                                </h5>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                    <%= blog.description %>
-                                </p>
-                                <a href="/blogs/<%= blog._id %>"
-                                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800">
-                                    Read more
-                                </a>
+                            class="flex flex-col bg-[#ffffff] border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                            <!-- Image without link -->
+                            <div class="bg-gray-100">
+                                <img src="<%= blog.coverImage || '/default-image.jpg' %>" alt="<%= blog.title %>"
+                                    class="w-full h-[180px] object-cover" />
                             </div>
+
+                            <!-- Clickable title only -->
+                            <h3
+                                class="font-['SF_Pro_Display'] text-[18px] font-medium leading-[22px] text-center mt-3 px-2">
+                                <%= blog.title %>
+                            </h3>
+
+                            <a href="/blogs/<%= blog._id %>"
+                                class="mt-4 px-2 flex items-center justify-center space-x-2 group">
+                                <button
+                                    class="bg-[#1F3A93] hover:bg-[#3B59C5] hover:cursor-pointer mb-2 text-white font-medium rounded-lg px-5 py-2.5 transition-colors duration-300">
+                                    Read More
+                                </button>
+
+                            </a>
                         </div>
                         <% }) %>
                 </div>
-
                 <% } else { %>
                     <p class="text-center mt-10 text-gray-500">No blogs available.</p>
                     <% } %>
-        </div>
+        </section>
 
-        <%- include("partials/scripts") %>
+        <%- include("partials/footer") %>
+            <%- include("partials/scripts") %>
 </body>
 
 </html>
