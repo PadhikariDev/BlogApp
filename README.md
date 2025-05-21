@@ -1,4 +1,4 @@
-!(public/images/echoPressHome.png)
+![](public/images/echoPressHome.png)
 
 # Echo Press Blog Platform
 
