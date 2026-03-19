@@ -4,6 +4,7 @@ const router = Router();
 
 router.post("/addComments", async (req, res) => {
     try {
+        if (!req.user) return res.redirect("/user/signin");
         const { commentBody, blogId } = req.body;
 
         const newComment = new comments({

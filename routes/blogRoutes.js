@@ -6,13 +6,14 @@ const router = express.Router();
 
 // Show add blog form
 router.get("/add", (req, res) => {
-
+    if (!req.user) return res.redirect("/user/signin");
     res.render("blog", {
         user: req.user,
     }); // your form view
 });
 
 router.post("/add", upload.single("coverImage"), async (req, res) => {
+    if (!req.user) return res.redirect("/user/signin");
     const { title, description, body } = req.body;
     const coverImagePath = req.file ? `/uploads/${req.file.filename}` : "";
 
