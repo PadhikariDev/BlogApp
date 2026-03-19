@@ -4,10 +4,12 @@ import user from "../models/users.js";
 const router = Router();
 
 router.get("/signin", (req, res) => {
+    if (req.user) return res.redirect("/");
     res.render("signin");
 });
 
 router.get("/signup", (req, res) => {
+    if (req.user) return res.redirect("/");
     res.render("signup");
 });
 
@@ -37,7 +39,7 @@ router.post("/signin", async (req, res) => {
         const token = await user.matchPasswordAndGenerateToken(email, password);
         console.log(token);
         if (!token) {
-            return redirect("/signup");
+            return res.redirect("/user/signin");
         }
         return res.cookie("token", token).redirect("/");
     } catch (error) {
